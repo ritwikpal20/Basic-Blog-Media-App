@@ -78,18 +78,25 @@ function loadPosts() {
             inp = btn.previousElementSibling;
             body = inp.value;
             $.get("login-check", (user) => {
-                $.post(
-                    "/api/posts/comments",
-                    {
-                        body: body,
-                        userId: user.user.id,
-                        postId: $(event.target).attr("data-id"),
-                    },
-                    (comment) => {
-                        btn.nextElementSibling.nextElementSibling.children[2].innerText =
-                            comment.body;
-                    }
-                );
+                if (user.user) {
+                    $.post(
+                        "/api/posts/comments",
+                        {
+                            body: body,
+                            userId: user.user.id,
+                            postId: $(event.target).attr("data-id"),
+                        },
+                        (comment) => {
+                            btn.nextElementSibling.nextElementSibling.children[2].innerText =
+                                comment.body;
+                        }
+                    );
+                } else {
+                    btn.nextElementSibling.nextElementSibling.children[2].innerText =
+                        "Please login to comment";
+                    btn.nextElementSibling.nextElementSibling.children[2].style.color =
+                        "red";
+                }
             });
         });
     });
