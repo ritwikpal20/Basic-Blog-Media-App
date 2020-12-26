@@ -1,12 +1,16 @@
 const { Sequelize } = require("sequelize");
-// const db = new Sequelize("socialmediadb", "socialuser", "socialpass", {
-//     host: "localhost",
-//     dialect: "mysql",
-// });
-const db = new Sequelize({
-    dialect: "sqlite",
-    storage: __dirname + "/socialmediadb.db",
-});
+let db;
+
+if (process.env.DATABASE_URL) {
+    //for use in production
+    db = new Sequelize(process.env.DATABASE_URL);
+} else {
+    //for use in development
+    db = new Sequelize({
+        dialect: "sqlite",
+        storage: __dirname + "/socialmediadb.db",
+    });
+}
 
 const DataTypes = Sequelize.DataTypes;
 const COL_ID_DEF = {
