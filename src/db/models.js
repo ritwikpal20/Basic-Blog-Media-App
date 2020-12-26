@@ -1,7 +1,11 @@
 const { Sequelize } = require("sequelize");
-const db = new Sequelize("socialmediadb", "socialuser", "socialpass", {
-    host: "localhost",
-    dialect: "mysql",
+// const db = new Sequelize("socialmediadb", "socialuser", "socialpass", {
+//     host: "localhost",
+//     dialect: "mysql",
+// });
+const db = new Sequelize({
+    dialect: "sqlite",
+    storage: __dirname + "/socialmediadb.db",
 });
 
 const DataTypes = Sequelize.DataTypes;

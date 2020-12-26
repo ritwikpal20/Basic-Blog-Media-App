@@ -4,7 +4,7 @@
   "description": "A very basic social media app",
   "main": "index.js",
   "scripts": {
-    "start":"node src/server.js"
+    "start": "node src/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +12,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "mysql2": "^2.2.5",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
   }
 }
