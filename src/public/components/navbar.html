@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand nav-link" href="#" data-component='all-articles' style="font-size: 30px;font-weight:bold;">Social Media</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" id="home" aria-current="page" href="#" data-component='all-articles'>Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="write-post" href="#" data-component="write-post">Write Post</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id="my-posts" data-component="my-post">My posts</a>
+                </li>
+            </ul>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <span id="nav-username"></span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">My Profile</a>
+                    <span class="dropdown-item spanLogout">Logout</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script src="../app/navbar.js"></script>

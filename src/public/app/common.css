@@ -1,0 +1,13 @@
+#content {
+    min-height: 1000px;
+}
+#footer {
+    position: sticky;
+    bottom: 0px;
+    background-color: var(--bs-light);
+}
+#navbar {
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+}
