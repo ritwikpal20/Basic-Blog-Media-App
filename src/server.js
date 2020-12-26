@@ -46,10 +46,11 @@ app.get("/logout", (req, res) => {
     res.send(null);
 });
 
+const PORT = process.env.PORT || 4000;
 db.sync({ alter: true })
     .then(() => {
-        app.listen(4000, () => {
-            console.log("server started on http://localhost:4000");
+        app.listen(PORT, () => {
+            console.log(`server started on http://localhost:${PORT}`);
         });
     })
     .catch((err) => {
