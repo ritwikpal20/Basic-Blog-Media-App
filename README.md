@@ -1,6 +1,4 @@
-Here there , this is my first api based , simple backend project , based on blog posting.
-Being a beginner , there may be many flaws in the project and much improvements could be made, still i tried my best to complete it. This website looks like a single url website and all the various components are loaded into it asynchronously.
-
+ This is a api based , simple backend project , based on blog posting.
 
 # Social Media App
 
