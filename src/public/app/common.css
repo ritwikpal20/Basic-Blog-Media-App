@@ -1,5 +1,6 @@
 #content {
     min-height: 1000px;
+    background-color: rgb(185, 187, 255);
 }
 #footer {
     position: sticky;

@@ -93,6 +93,7 @@ function loadMyPosts() {
                         (comment) => {
                             btn.nextElementSibling.nextElementSibling.children[2].innerText =
                                 comment.body;
+                            inp.value=""
                         }
                     );
                 });

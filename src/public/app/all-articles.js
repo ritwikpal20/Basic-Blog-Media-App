@@ -48,6 +48,9 @@ function loadPosts() {
             nodes = document.querySelectorAll(".last_comment");
             node = nodes[nodes.length - 1];
             if (p.comments[p.comments.length - 1]) {
+                p.comments = p.comments.sort((a, b) =>
+                    a.createdAt > b.createdAt ? 1 : -1
+                );
                 node.innerText = p.comments[p.comments.length - 1].body;
             } else {
                 node.innerHTML = `<p style="font-style:italic">no comments present</p>`;
@@ -89,6 +92,7 @@ function loadPosts() {
                         (comment) => {
                             btn.nextElementSibling.nextElementSibling.children[2].innerText =
                                 comment.body;
+                            inp.value = "";
                         }
                     );
                 } else {

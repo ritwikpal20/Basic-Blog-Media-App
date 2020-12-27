@@ -18,7 +18,7 @@ $("#btnLogin").click(() => {
                 <span id="nav-username"></span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">My Profile</a>
+                <a class="dropdown-item aMyProfile nav-link" href="#" data-component='profile'>My Profile</a>
                 <span class="dropdown-item spanLogout">Logout</span>
                 `);
                 $("#nav-username").text(loggedInUser.user.username);
@@ -42,6 +42,15 @@ $("#btnLogin").click(() => {
                             $("#content").load(componentUrl);
                         });
                     });
+                });
+                navlinks = $(".nav-link");
+
+                navlinks.click((event) => {
+                    console.log($(event.target).attr("data-component"));
+                    componentUrl = `../components/${$(event.target).attr(
+                        "data-component"
+                    )}.html`;
+                    $("#content").load(componentUrl);
                 });
             }
         }

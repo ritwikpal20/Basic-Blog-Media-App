@@ -35,17 +35,26 @@ function loginIfNeeded() {
                         `<a href="#" data-component='login' class='nav-link'>Login</a><a href="#" data-component='signup' class='nav-link'>Signup</a>`
                     );
                     $("#content").load("../components/all-articles.html");
+                    navlinks = $(".nav-link");
+
+                    navlinks.click((event) => {
+                        console.log($(event.target).attr("data-component"));
+                        componentUrl = `../components/${$(event.target).attr(
+                            "data-component"
+                        )}.html`;
+                        $("#content").load(componentUrl);
+                    });
                 });
             });
-            navlinks = $(".nav-link");
+            // navlinks = $(".nav-link");
 
-            navlinks.click((event) => {
-                console.log($(event.target).attr("data-component"));
-                componentUrl = `../components/${$(event.target).attr(
-                    "data-component"
-                )}.html`;
-                $("#content").load(componentUrl);
-            });
+            // navlinks.click((event) => {
+            //     console.log($(event.target).attr("data-component"));
+            //     componentUrl = `../components/${$(event.target).attr(
+            //         "data-component"
+            //     )}.html`;
+            //     $("#content").load(componentUrl);
+            // });
         }
     });
 }

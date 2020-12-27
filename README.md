@@ -1,8 +1,10 @@
- This is a api based , simple backend project , based on blog posting.
+This is a api based , simple backend project , based on blog posting. It works on single URL and all the various components are loaded into it asynchronously.
 
-# Social Media App
+# Blog Posting App
 
-## **Setting up the database in local machine**
+## **Setting up the database on local machine for development:**
+
+## _Using MySQL Database_
 
 ### _1. Install Mysql Database and add it to path_
 
@@ -38,15 +40,19 @@ $ grant all privileges on socialmediadb.* to socialuser;
 $ flush privileges;
 ```
 
-## **Starting the project**
+## _Using SQLite Database_
 
-### _1.Inital package setup_
+#### This project by default uses SQLite Database on development server, which does needs to be set up. It works on directly.
 
--   Open the editor terminal and install the following packages
+## **Starting the project:**
+
+### _Clone the codebase from github_
+
+-   Open the editor terminal
 
 ```
-$ npm init
-$ npm install mysql2 sequelize express
+$ npm install
+$ npm start
 ```
 
 -   Project Structure
@@ -62,6 +68,7 @@ SRC
 │
 ├───db
 │       models.js
+│       socialmediadb.db
 │
 ├───public
 │   │   index.html
@@ -74,6 +81,7 @@ SRC
 │   │       login.js
 │   │       my-post.js
 │   │       navbar.js
+│   │       profle.js
 │   │       signup.js
 │   │       write-post.js
 │   │
@@ -104,15 +112,15 @@ SRC
 
 ## API Documentation
 
--   GET : _/api/users/{userId or username}_ - Sends the user with given username or id
+-   GET : _/api/users/{userId or username}_ - Finds the user with given username or id , passed in the params of the request.
 
--   POST : _/api/users/_ - Creates a random new user
+-   POST : _/api/users/_ - Creates a new user with name,username,email and password , passed in the body of the request.
 
--   GET : _/api/posts/_ - Returns all the posts created
+-   GET : _/api/posts/_ - Returns all the posts that have been already created.
 
 -   POST : _/api/posts/_ - Creates a new post with following fields in the body(title,body,userId)
 
--   GET : _/api/posts/comments/_ - shows comments with either a userId or postId passed as query parameters . If want to get all comments by a particular user pass the userId with postId as null. If want to get all comments under a post pass the userId as null and postId with a value.
+-   GET : _/api/posts/comments/_ - shows comments with either a userId or postId passed in the query of the request . If want to get all comments by a particular user pass the userId with postId as null. If want to get all comments under a post pass the userId as null and postId with a value.
     {userId: _ , postId: _ }
 
 -   POST : _/api/posts/comments/_ - post a comment under a particular post with a given user . The body of the post , userId and postId are to be passed in the body of the req
