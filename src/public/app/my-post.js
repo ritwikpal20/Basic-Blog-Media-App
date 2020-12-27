@@ -7,8 +7,8 @@ nav_links.forEach((link) => {
 $("#my-posts").addClass("active");
 
 function loadMyPosts() {
-    $.get("/login-check", (user) => {
-        $.get("/api/posts", { id: user.user.id }, (posts) => {
+    $.get("login-check", (data) => {
+        $.get("/api/posts", { id: data.user.id }, (posts) => {
             $("#display-post").html("");
             for (p of posts) {
                 $("#display-post")
@@ -23,24 +23,31 @@ function loadMyPosts() {
                     .split(" ")
                     .slice(0, 20)
                     .join(" ")}</p>
-                <a href="#" class= "card-link read-more" data-component='comments' data-id='${
-                    p.id
-                }'></a>
-                <input class='inpComment' placeholder='type your comment here...'><button class='btnComment' data-id='${
-                    p.id
-                }'>Comment</button>
-                <br>
-                <div class="card-header">
-                <b>Comments</b>
-                <br>
-                <p class="card-text last_comment">
-                </p>
-                <a href="#" class="card-link show-comments" data-component='comments' data-id='${
-                    p.id
-                }'>Show All Comments</a>
-                </div>
-                </div>
-                </div>`);
+                    <a href="#" class= "card-link read-more" data-component='comments' data-id='${
+                        p.id
+                    }'></a>
+                    <a href="#" class= "card-link edit-post" data-component='edit' data-id='${
+                        p.id
+                    }'></a>
+                    <a href="#" class= "card-link delete-post" data-component='delete' data-id='${
+                        p.id
+                    }'></a>
+                    <br>
+                    <input class='inpComment' placeholder='type your comment here...'><button class='btnComment' data-id='${
+                        p.id
+                    }'>Comment</button>
+                    <br>
+                    <div class="card-header">
+                    <b>Comments</b>
+                    <br>
+                    <p class="card-text last_comment">
+                    </p>
+                    <a href="#" class="card-link show-comments" data-component='comments' data-id='${
+                        p.id
+                    }'>Show All Comments</a>
+                    </div>
+                    </div>
+                    </div>`);
 
                 //Those posts have words more 20 , are not fully displayed
                 nodes = $(".read-more");
@@ -53,9 +60,26 @@ function loadMyPosts() {
                 nodes = document.querySelectorAll(".last_comment");
                 node = nodes[nodes.length - 1];
                 if (p.comments[p.comments.length - 1]) {
+                    p.comments = p.comments.sort((a, b) =>
+                        a.createdAt > b.createdAt ? 1 : -1
+                    );
                     node.innerText = p.comments[p.comments.length - 1].body;
                 } else {
                     node.innerHTML = `<p style="font-style:italic">no comments present</p>`;
+                }
+
+                //Displaying Edit Post and Delete Post on own's post
+                if (data.user) {
+                    if (data.user.id == p.user.id) {
+                        nodes = $(".edit-post");
+                        nodes = [...nodes];
+                        node = nodes[nodes.length - 1];
+                        $(node).text("Edit Post");
+                        nodes_delete = $(".delete-post");
+                        nodes_delete = [...nodes_delete];
+                        node_delete = nodes_delete[nodes_delete.length - 1];
+                        $(node_delete).text("Delete Post");
+                    }
                 }
             }
 
@@ -82,20 +106,46 @@ function loadMyPosts() {
                 btn = event.target;
                 inp = btn.previousElementSibling;
                 body = inp.value;
-                $.get("login-check", (user) => {
+                if (data.user) {
                     $.post(
                         "/api/posts/comments",
                         {
                             body: body,
-                            userId: user.user.id,
+                            userId: data.user.id,
                             postId: $(event.target).attr("data-id"),
                         },
                         (comment) => {
                             btn.nextElementSibling.nextElementSibling.children[2].innerText =
                                 comment.body;
-                            inp.value=""
+                            inp.value = "";
                         }
                     );
+                } else {
+                    btn.nextElementSibling.nextElementSibling.children[2].innerText =
+                        "Please login to comment";
+                    btn.nextElementSibling.nextElementSibling.children[2].style.color =
+                        "red";
+                }
+            });
+
+            //Editing a post
+            let editPosts = $(".edit-post");
+            editPosts.click((event) => {
+                console.log($(event.target).attr("data-id"));
+                post_id = $(event.target).attr("data-id");
+                componentUrl = `../components/edit.html`;
+                $("#content").load(componentUrl);
+            });
+
+            //Deleting a post
+            let deletePosts = $(".delete-post");
+            deletePosts.click((event) => {
+                console.log($(event.target).attr("data-id"));
+                post_id = $(event.target).attr("data-id");
+
+                $.get("/api/posts/delete", { id: post_id }, () => {
+                    componentUrl = `../components/my-post.html`;
+                    $("#content").load(componentUrl);
                 });
             });
         });

@@ -33,6 +33,31 @@ async function showPosts(query) {
     }
 }
 
+async function deletePost(query) {
+    try {
+        post = await Posts.findOne({
+            where: {
+                id: query,
+            },
+        });
+        await post.destroy();
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function getAPost(query) {
+    try {
+        post = await Posts.findOne({
+            where: {
+                id: query,
+            },
+        });
+        return post;
+    } catch (err) {
+        console.log(err);
+    }
+}
 // async function test() {
 //     posts = await showPosts();
 //     for (post of posts) {
@@ -51,4 +76,6 @@ async function showPosts(query) {
 module.exports = {
     createNewPost,
     showPosts,
+    deletePost,
+    getAPost,
 };

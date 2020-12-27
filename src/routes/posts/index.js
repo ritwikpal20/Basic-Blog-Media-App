@@ -1,5 +1,10 @@
 const { Router } = require("express");
-const { createNewPost, showPosts } = require("../../controllers/posts");
+const {
+    createNewPost,
+    showPosts,
+    deletePost,
+    getAPost,
+} = require("../../controllers/posts");
 const { commentsRoute } = require("./comment");
 
 const route = Router();
@@ -22,6 +27,35 @@ route.post("/", async (req, res) => {
         res.status(201).send(post);
     } catch (err) {
         res.status(400).send("Error raised");
+    }
+});
+
+route.get("/delete", async (req, res) => {
+    try {
+        await deletePost(req.query.id);
+        res.status(204).send("Post deleted");
+    } catch (err) {
+        res.status(400).send("Error deleting Post");
+    }
+});
+
+route.get("/post", async (req, res) => {
+    try {
+        post = await getAPost(req.query.id);
+        res.status(200).send(post);
+    } catch (err) {
+        console.log(err);
+    }
+});
+route.post("/post", async (req, res) => {
+    try {
+        post = await getAPost(req.body.id);
+        post.title = req.body.title;
+        post.body = req.body.body;
+        await post.save();
+        res.status(200).send(post);
+    } catch (err) {
+        console.log(err);
     }
 });
 
