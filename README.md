@@ -124,3 +124,9 @@ SRC
     {userId: _ , postId: _ }
 
 -   POST : _/api/posts/comments/_ - post a comment under a particular post with a given user . The body of the post , userId and postId are to be passed in the body of the req
+
+-   POST : _/api/posts/delete/_ - deletes a post with a postId passed in query of request
+
+-   GET : _/api/posts/post/_ - sends a post with a postId passed in query of request
+
+-   POST : _/api/posts/post/_ - updates a post with a postid , title and body passed in body of request
