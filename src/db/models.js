@@ -1,15 +1,22 @@
 const { Sequelize } = require("sequelize");
 let db;
 
-if (process.env.DATABASE_URL) {
-    //for use in production
-    db = new Sequelize(process.env.DATABASE_URL);
-} else {
-    //for use in development
+if (process.env.NODE_ENV == "testing") {
     db = new Sequelize({
         dialect: "sqlite",
-        storage: __dirname + "/socialmediadb.db",
+        storage: __dirname + "../../../test/test.db",
     });
+} else {
+    if (process.env.DATABASE_URL) {
+        //for use in production
+        db = new Sequelize(process.env.DATABASE_URL);
+    } else {
+        //for use in development
+        db = new Sequelize({
+            dialect: "sqlite",
+            storage: __dirname + "/socialmediadb.db",
+        });
+    }
 }
 
 const DataTypes = Sequelize.DataTypes;
