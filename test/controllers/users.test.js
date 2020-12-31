@@ -15,6 +15,16 @@ describe("src/controllers/users", () => {
         expect(user.email).to.equal("rp@gmail.com");
         expect(user.password).to.equal("samplepass");
     });
+    it("should throw error if passed empty values", async () => {
+        await expect(
+            createUser("Empty Username", "", "empty@gmail.com", "emppass")
+        ).to.be.rejectedWith("Any of the fields cannot be empty");
+    });
+    it("should throw error if username already exits", async () => {
+        await expect(
+            createUser("Ritwik", "rp", "rp@gmail.com", "samplepass")
+        ).to.be.rejectedWith("Username already used");
+    });
     it("should return a user searched by a id", async function () {
         user = await getUserById(2);
         expect(user.id).to.equal(2);
