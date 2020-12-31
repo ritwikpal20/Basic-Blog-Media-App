@@ -1,6 +1,12 @@
 const { Users } = require("../db/models");
 
 async function createUser(name, username, email, password) {
+    if (name == "" || username == "" || email == "" || password == "") {
+        throw new Error("Any of the fields cannot be empty");
+    }
+    if (await getUserByUsername(username)) {
+        throw new Error("Username already used");
+    }
     user = await Users.create({
         name: name,
         username: username,
