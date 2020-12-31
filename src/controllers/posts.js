@@ -2,6 +2,12 @@ const { Posts, Users, Comments } = require("../db/models");
 
 async function createNewPost(title, body, userId) {
     try {
+        if (title == "" || body == "" || userId == 0) {
+            throw new Error("Fields cannot be empty");
+        }
+        if (!title || !body || !userId) {
+            throw new Error("All fields required");
+        }
         post = await Posts.create({
             title: title,
             body: body,
@@ -15,7 +21,7 @@ async function createNewPost(title, body, userId) {
 
 async function showPosts(query) {
     try {
-        if (query) {
+        if (typeof query == "number") {
             posts = await Posts.findAll({
                 where: {
                     userId: parseInt(query),

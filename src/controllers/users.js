@@ -17,6 +17,12 @@ async function createUser(name, username, email, password) {
 }
 
 async function getUserById(id) {
+    if (!id) {
+        throw new Error("User id should be provided");
+    }
+    if (typeof id != "number") {
+        throw new Error("User id should be integer");
+    }
     user = await Users.findOne({
         where: {
             id: id,
@@ -26,6 +32,9 @@ async function getUserById(id) {
 }
 
 async function getUserByUsername(username) {
+    if (typeof username != "string") {
+        throw new Error("username should be string");
+    }
     user = await Users.findOne({
         where: {
             username: username,
