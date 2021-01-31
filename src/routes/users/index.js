@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const { Router } = require("express");
 const {
     createUser,
@@ -22,11 +23,30 @@ route.get("/:id", async (req, res) => {
         });
     }
 });
-
+saltRounds = parseInt(process.env.SALT_ROUNDS);
 route.post("/", async (req, res) => {
     try {
-        user = await createUser(req.body.name,req.body.username,req.body.email,req.body.password);
-        res.status(201).send(user);
+        if (await getUserByUsername(req.body.username)) {
+            return res.send({ error: "Username already exists" });
+        } else {
+            bcrypt.hash(
+                req.body.password,
+                saltRounds,
+                async function (err, hash) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        user = await createUser(
+                            req.body.name,
+                            req.body.username,
+                            req.body.email,
+                            hash
+                        );
+                        res.status(201).send(user);
+                    }
+                }
+            );
+        }
     } catch (err) {
         console.log(err);
     }

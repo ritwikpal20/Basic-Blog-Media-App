@@ -3,3 +3,4 @@ test/test.db
 src/db/socialmediadb.db
 coverage/
 .nyc_output/
+src/.env

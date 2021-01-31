@@ -1,8 +1,8 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require("express");
 const session = require("express-session");
-const { db, Users } = require("./db/models");
-const { usersRoute } = require("./routes/users");
-const { postsRoute } = require("./routes/posts/");
+const bcrypt = require("bcrypt");
 const app = express();
 
 app.use(express.json());
@@ -11,11 +11,17 @@ app.use(
     session({
         resave: true,
         saveUninitialized: true,
-        secret: "dkfnsooiohngwsvvef",
+        secret: process.env.SESSION_SECRET,
+        cookie: {
+            maxAge: 24 * 60 * 60 * 1000,
+        },
     })
 );
 
 app.use("/", express.static(__dirname + "/public"));
+const { db, Users } = require("./db/models");
+const { usersRoute } = require("./routes/users");
+const { postsRoute } = require("./routes/posts/");
 app.use("/api/users", usersRoute);
 app.use("/api/posts", postsRoute);
 app.get("/login-check", async (req, res) => {
@@ -34,11 +40,17 @@ app.post("/login", async (req, res) => {
     if (!user) {
         return res.send({ error: "No such username" });
     }
-    if (user.password != req.body.password) {
-        return res.send({ error: "Wrong password" });
-    }
-    req.session.userId = user.id;
-    res.send({ user: user });
+    // Load hash from your password DB.
+    hash = user.password;
+    bcrypt.compare(req.body.password, hash, function (err, result) {
+        // result == true
+        if (result == true) {
+            req.session.userId = user.id;
+            res.send({ user: user });
+        } else {
+            return res.send({ error: "Wrong password" });
+        }
+    });
 });
 app.get("/logout", (req, res) => {
     req.session.userId = null;

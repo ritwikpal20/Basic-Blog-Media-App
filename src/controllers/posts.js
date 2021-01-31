@@ -21,7 +21,7 @@ async function createNewPost(title, body, userId) {
 
 async function showPosts(query) {
     try {
-        if (typeof query == "number") {
+        if (query) {
             posts = await Posts.findAll({
                 where: {
                     userId: parseInt(query),

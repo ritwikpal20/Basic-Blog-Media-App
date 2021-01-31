@@ -8,7 +8,11 @@ $("#btnSignup").click(() => {
             password: $("#password").val(),
         },
         (user) => {
-            $("#content").load("../components/login.html");
+            if (user.error) {
+                $(".error").text(user.error);
+            } else {
+                $("#content").load("../components/login.html");
+            }
         }
     );
 });
