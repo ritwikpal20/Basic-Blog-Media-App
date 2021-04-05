@@ -9,7 +9,14 @@ if (process.env.NODE_ENV == "testing") {
 } else {
     if (process.env.DATABASE_URL) {
         //for use in production
-        db = new Sequelize(process.env.DATABASE_URL);
+        db = new Sequelize(process.env.DATABASE_URL, {
+            dialectOptions: {
+                ssl: {
+                    require: true,
+                    rejectUnauthorized: false, // <<<<<< YOU NEED THIS
+                },
+            },
+        });
     } else {
         //for use in development
         db = new Sequelize({
